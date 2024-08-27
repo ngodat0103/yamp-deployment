@@ -17,24 +17,19 @@ spec:
         - name: init-sql
           secret:
             secretName: share-db-secret
+            items:
+              - key: INIT_SQL
+                path: init.sql
       containers:
         - image:  postgres:16.3-bullseye
           name: share-db
           ports:
             - containerPort: 5432
-          env:
-            - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  name: share-db-secret
-                  key: POSTGRES_USER
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: share-db-secret
-                  key: POSTGRES_PASSWORD
+          envFrom:
+            - secretRef:
+                name: share-db-secret
           volumeMounts:
-            - mountPath: /docker-entrypoint-initdb.d
+            - mountPath: /docker-entrypoint-initdb.d/
               name: init-sql
 
 ---

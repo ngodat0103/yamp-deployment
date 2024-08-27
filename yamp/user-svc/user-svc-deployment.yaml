@@ -12,24 +12,27 @@ spec:
       labels:
         app: user-svc
     spec:
+      volumes:
+        - name: prep-proc-profile
+          configMap:
+            name: user-svc-configmap
       imagePullSecrets:
         - name: ghcr-secret
       containers:
         - name: auth-svc
           image: ghcr.io/ngodat0103/yamp/user-svc:pr-latest
           imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: /opt/app/BOOT-INF/classes/pre-proc.yaml
+              name: prep-proc-profile
+              subPath: pre-proc.yaml
+          envFrom:
+            - secretRef:
+                name: user-svc-secret
+            - configMapRef:
+                name: tempo-common-configmap
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: pre-proc
-            - name: SPRING_DATASOURCE_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: user-svc-secret
-                  key: SPRING_DATASOURCE_USERNAME
-            - name: SPRING_DATASOURCE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: user-svc-secret
-                  key: SPRING_DATASOURCE_PASSWORD
           ports:
             - containerPort: 8002

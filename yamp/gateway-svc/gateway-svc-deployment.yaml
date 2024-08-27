@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway-svc
+  template:
+    metadata:
+      labels:
+        app: gateway-svc
+    spec:
+      volumes:
+        - name: pre-proc-profile
+          configMap:
+            name: gateway-svc-configmap
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: gateway-svc
+          image: ghcr.io/ngodat0103/yamp/gateway-svc:pr-latest
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: pre-proc-profile
+              mountPath: /opt/app/BOOT-INF/classes/pre-proc.yaml
+              subPath: pre-proc.yaml
+          envFrom:
+            - secretRef:
+                name: gateway-svc-secret
+            - configMapRef:
+                name: tempo-common-configmap
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: pre-proc
+          ports:
+            - containerPort: 8000
