@@ -21,6 +21,13 @@ spec:
       containers:
         - name: gateway-svc
           image: ghcr.io/ngodat0103/yamp/gateway-svc:pr-latest
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "1024Mi"
+              cpu: "1000m"
           imagePullPolicy: Always
           volumeMounts:
             - name: pre-proc-profile

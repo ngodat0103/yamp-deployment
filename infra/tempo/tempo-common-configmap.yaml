@@ -5,4 +5,4 @@ metadata:
 data:
   JAVA_TOOL_OPTIONS: '-javaagent:/opt/app/BOOT-INF/lib/opentelemetry-javaagent-1.28.0.jar'
   OTEL_METRICS_EXPORTER: "none"
-  OTEL_EXPORTER_OTLP_ENDPOINT: "http://tempo-release.grafana.svc.cluster.local:4317"
+  OTEL_EXPORTER_OTLP_ENDPOINT: "http://tempo-release.monitoring.svc.cluster.local:4317"
