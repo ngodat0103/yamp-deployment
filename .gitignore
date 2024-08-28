@@ -1,3 +1,2 @@
-/infra/ghcr-secret.yaml
-/infra/hcp-k8s-operator/hcp-k8s-secret.yaml
-/infra/ghcr-secret.yaml
+/infra/k8s/ghcr-secret.yaml
+/infra/k8s/hcp-k8s-operator/hcp-k8s-secret.yaml
