@@ -5,12 +5,12 @@ HCP_SECRET="./k8s/hcp-k8s-operator/hcp-k8s-secret.yaml"
 
 
 if [ ! -f "$GHCR_SECRET" ]; then
-  echo "ghcr-secret required"
+  echo "${GHCR_SECRET} required"
   exit 1
 fi
 
 if [ ! -f "$HCP_SECRET" ]; then
-  echo "hcp-k8s-secret required"
+  echo "${HCP_SECRET} required"
   exit 1
 fi
 
