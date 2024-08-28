@@ -20,7 +20,7 @@ spec:
         - name: ghcr-secret
       containers:
         - name: gateway-svc
-          image: ghcr.io/ngodat0103/yamp/gateway-svc:pr-latest
+          image: ghcr.io/ngodat0103/yamp/gateway-svc:0.0.1-pre.51c1cf9
           resources:
             requests:
               memory: "512Mi"
