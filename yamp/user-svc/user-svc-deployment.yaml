@@ -20,7 +20,7 @@ spec:
         - name: ghcr-secret
       containers:
         - name: auth-svc
-          image: ghcr.io/ngodat0103/yamp/user-svc:pr-latest
+          image: ghcr.io/ngodat0103/yamp/user-svc:0.0.1
           imagePullPolicy: Always
           resources:
             requests:
