@@ -16,7 +16,7 @@ spec:
         - name: ghcr-secret
       containers:
         - name: auth-svc
-          image: ghcr.io/ngodat0103/yamp/auth-svc:pr-latest
+          image: ghcr.io/ngodat0103/yamp/auth-svc:0.0.1
           envFrom:
             - configMapRef:
                 name: tempo-common-configmap
