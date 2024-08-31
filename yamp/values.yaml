@@ -1,0 +1,73 @@
+# Default values for yamp.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicaCount: 2
+image:
+  pullPolicy: Always
+  tag: "pr-latest"
+
+imagePullSecrets:
+  name: ghcr-secret
+nameOverride: ""
+spring:
+  profiles:
+      active: pre-proc
+resources:
+   limits:
+     cpu: 1024m
+     memory: 1024Mi
+   requests:
+     cpu: 512m
+     memory: 1024Mi
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+yamp:
+  authsvc:
+    repo: ghcr.io/ngodat0103/yamp/auth-svc
+    tag: "0.0.1"
+  usersvc:
+    repo: ghcr.io/ngodat0103/yamp/user-svc
+    tag: "0.0.1"
+  gatewaysvc:
+    repo: ghcr.io/ngodat0103/yamp/gateway-svc
+    tag: "0.0.1"
+configmap:
+  tempo: tempo-common-configmap
+
+
+
+# Additional volumes on the output Deployment definition.
+#volumes: []
+# - name: foo
+#   secret:
+#     secretName: mysecret
+#     optional: false
+
+# Additional volumeMounts on the output Deployment definition.
+#volumeMounts: []
+# - name: foo
+#   mountPath: "/etc/foo"
+#   readOnly: true
+#nodeSelector: {}
+#
+#tolerations: []
+#affinity: {}
+
+#podSecurityContext: {}
+# fsGroup: 2000
+
+#securityContext: {}
+# capabilities:
+#   drop:
+#   - ALL
+# readOnlyRootFilesystem: true
+# runAsNonRoot: true
+# runAsUser: 1000
+
+
+

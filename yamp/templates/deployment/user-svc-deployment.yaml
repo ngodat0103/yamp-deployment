@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-svc-deployment
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  replicas: {{.Values.replicaCount}}
+  selector:
+    matchLabels:
+      app: user-svc
+  template:
+    metadata:
+      labels:
+        app: user-svc
+    spec:
+      imagePullSecrets:
+        - name: {{.Values.imagePullSecrets.name}}
+      containers:
+        - name: user-svc
+          image: {{.Values.yamp.usersvc.repo}}:{{.Values.yamp.usersvc.tag}}
+          envFrom:
+            - configMapRef:
+                name: user-svc-configmap
+            - secretRef:
+                name: user-svc-secret
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: {{.Values.spring.profiles.active}}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8002
+          resources:
+            requests:
+              memory: {{.Values.resources.requests.memory}}
+              cpu: {{.Values.resources.requests.cpu}}
+            limits:
+              memory: {{.Values.resources.limits.memory}}
+              cpu: {{.Values.resources.limits.cpu}}

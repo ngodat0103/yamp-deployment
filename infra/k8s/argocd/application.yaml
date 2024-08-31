@@ -12,7 +12,7 @@ spec:
       - ApplyOutOfSyncOnly=true
   project: default
   source:
-    repoURL: https://github.com/NGODAT0103/YAMP-DEPLOYMENT.git
+    repoURL: https://github.com/ngodat0103/yamp-deployment.git
     targetRevision: HEAD
     directory:
       recurse: true
