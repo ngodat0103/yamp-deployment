@@ -4,7 +4,7 @@
 replicaCount: 2
 image:
   pullPolicy: Always
-  tag: "pr-latest"
+  tag: 0.0.0
 
 imagePullSecrets:
   name: ghcr-secret
@@ -29,13 +29,13 @@ autoscaling:
 yamp:
   authsvc:
     repo: ghcr.io/ngodat0103/yamp/auth-svc
-    tag: "pr-latest"
+    tag: 0.0.0
   usersvc:
     repo: ghcr.io/ngodat0103/yamp/user-svc
-    tag: "pr-latest"
+    tag: 0.0.0
   gatewaysvc:
     repo: ghcr.io/ngodat0103/yamp/gateway-svc
-    tag: "pr-latest"
+    tag: 0.0.0
 configmap:
   tempo: tempo-common-configmap
 
