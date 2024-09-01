@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-svc-deployment
+spec:
+  replicas: {{.Values.replicaCount}}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: gateway-svc
+  template:
+    metadata:
+      labels:
+        app: gateway-svc
+    spec:
+      imagePullSecrets:
+        - name: {{.Values.imagePullSecrets.name}}
+      containers:
+        - name: gateway-svc
+          image: {{.Values.yamp.gatewaysvc.repo}}:{{.Values.yamp.gatewaysvc.tag}}
+          envFrom:
+            - configMapRef:
+                name: {{.Values.configmap.tempo}}
+            - secretRef:
+                name: gateway-svc-secret
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: {{.Values.spring.profiles.active}}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              memory: {{.Values.resources.requests.memory}}
+              cpu: {{.Values.resources.requests.cpu}}
+            limits:
+              memory: {{.Values.resources.limits.memory}}
+              cpu: {{.Values.resources.limits.cpu}}
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8000
+            initialDelaySeconds: {{.Values.probes.initialDelaySeconds}}
+            periodSeconds: {{.Values.probes.periodSeconds}}
+            timeoutSeconds: {{.Values.probes.timeoutSeconds}}
+            failureThreshold: {{.Values.probes.failureThreshold}}
+          readinessProbe:
+            httpGet:
+              port: 8000
+              path: /actuator/health/readiness
+            initialDelaySeconds: {{.Values.probes.initialDelaySeconds}}
+            periodSeconds: {{.Values.probes.periodSeconds}}
+            timeoutSeconds: {{.Values.probes.timeoutSeconds}}
+            failureThreshold: {{.Values.probes.failureThreshold}}

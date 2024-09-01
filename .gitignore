@@ -1,2 +1,5 @@
-/infra/k8s/ghcr-secret.yaml
+/yamp/secret/ghcr-secret.yaml
 /infra/k8s/hcp-k8s-operator/hcp-k8s-secret.yaml
+/.idea/
+/yamp/secret/hcp-k8s-secret.yaml
+/yamp/yamp/yamp-0.0.0.tgz
