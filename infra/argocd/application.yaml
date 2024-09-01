@@ -6,11 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    chart: yamp
-    repoURL: https://github.com/ngodat0103/yamp-deployment/tree/config/yamp
-    targetRevision: HEAD
-    helm:
-      releaseName: yamp-release
+    repoURL: https://github.com/ngodat0103/yamp-deployment.git
+    targetRevision: master
+    path: yamp
   destination:
     server: "https://kubernetes.default.svc"
     namespace: yamp

@@ -46,7 +46,7 @@ spec:
               port: 8001
             initialDelaySeconds: {{.Values.probes.initialDelaySeconds}}
             periodSeconds: {{.Values.probes.periodSeconds}}
-            timeoutSeconds:{{.Values.probes.timeoutSeconds}}
+            timeoutSeconds: {{.Values.probes.timeoutSeconds}}
             failureThreshold: {{.Values.probes.failureThreshold}}
           readinessProbe:
             httpGet:
