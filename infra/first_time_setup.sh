@@ -1,7 +1,7 @@
 #!/bin/bash
 
-GHCR_SECRET="./k8s/ghcr-secret.yaml"
-HCP_SECRET="./k8s/hcp-k8s-operator/hcp-k8s-secret.yaml"
+GHCR_SECRET="../secret/ghcr-secret.yaml"
+HCP_SECRET="../secret/hcp-k8s-secret.yaml"
 
 
 if [ ! -f "$GHCR_SECRET" ]; then

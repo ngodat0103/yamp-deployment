@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: yamp-application
+  namespace: argocd
+spec:
+  project: default
+  source:
+    path: yamp
+    chart: yamp
+    repoURL: https://github.com/ngodat0103/yamp-deployment.git
+    targetRevision: master
+    helm:
+      releaseName: yamp-release
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: yamp
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

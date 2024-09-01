@@ -21,7 +21,7 @@ spec:
         - name: {{.Values.imagePullSecrets.name}}
       containers:
         - name: user-svc
-          image: {{.Values.yamp.usersvc.repo}}:{{.Values.yamp.usersvc.tag}}
+          image: {{.Values.yamp.usersvc.repo}}:{{.Chart.AppVersion}}
           envFrom:
             - configMapRef:
                 name: {{.Values.configmap.tempo}}
