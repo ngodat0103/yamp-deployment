@@ -41,9 +41,9 @@ probes:
   liveness:
     initialDelaySeconds: 30
   readiness:
-    initialDelaySeconds: 120
+    initialDelaySeconds: 60
   periodSeconds: 10
-  timeoutSeconds: 5
+  timeoutSeconds: 10
   failureThreshold: 3
 
 
