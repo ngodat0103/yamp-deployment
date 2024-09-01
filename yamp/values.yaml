@@ -29,13 +29,10 @@ autoscaling:
 yamp:
   authsvc:
     repo: ghcr.io/ngodat0103/yamp/auth-svc
-    tag: "pr-latest"
   usersvc:
     repo: ghcr.io/ngodat0103/yamp/user-svc
-    tag: "pr-latest"
   gatewaysvc:
     repo: ghcr.io/ngodat0103/yamp/gateway-svc
-    tag: "pr-latest"
 configmap:
   tempo: tempo-common-configmap
 

@@ -7,8 +7,8 @@ spec:
   project: default
   source:
     chart: yamp
-    repoURL: https://github.com/ngodat0103/yamp-deployment.git
-    targetRevision: config
+    repoURL: https://github.com/ngodat0103/yamp-deployment/tree/config/yamp
+    targetRevision: HEAD
     helm:
       releaseName: yamp-release
   destination:
