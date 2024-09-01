@@ -6,9 +6,12 @@ metadata:
 spec:
   project: default
   source:
+    directory:
+      recurse: true
+    path: yamp
     chart: yamp
-    repoURL: https://github.com/ngodat0103/yamp-deployment/tree/config/yamp
-    targetRevision: HEAD
+    repoURL: https://github.com/ngodat0103/yamp-deployment.git
+    targetRevision: 0.0.1-pre.8a7583d
     helm:
       releaseName: yamp-release
   destination:
