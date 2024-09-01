@@ -40,3 +40,22 @@ spec:
             limits:
               memory: {{.Values.resources.limits.memory}}
               cpu: {{.Values.resources.limits.cpu}}
+          livenessProbe:
+            httpGet:
+              path: /api/v1/auth/actuator/health/liveness
+              port: 8001
+            initialDelaySeconds: {{.Values.probes.initialDelaySeconds}}
+            periodSeconds: {{.Values.probes.periodSeconds}}
+            timeoutSeconds:{{.Values.probes.timeoutSeconds}}
+            failureThreshold: {{.Values.probes.failureThreshold}}
+          readinessProbe:
+            httpGet:
+              port: 8001
+              path: /api/v1/auth/actuator/health/readiness
+            initialDelaySeconds: {{.Values.probes.initialDelaySeconds}}
+            periodSeconds: {{.Values.probes.periodSeconds}}
+            timeoutSeconds: {{.Values.probes.timeoutSeconds}}
+            failureThreshold: {{.Values.probes.failureThreshold}}
+
+
+

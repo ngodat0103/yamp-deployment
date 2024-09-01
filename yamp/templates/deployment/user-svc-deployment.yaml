@@ -24,7 +24,7 @@ spec:
           image: {{.Values.yamp.usersvc.repo}}:{{.Values.yamp.usersvc.tag}}
           envFrom:
             - configMapRef:
-                name: user-svc-configmap
+                name: {{.Values.configmap.tempo}}
             - secretRef:
                 name: user-svc-secret
           env:
@@ -40,3 +40,19 @@ spec:
             limits:
               memory: {{.Values.resources.limits.memory}}
               cpu: {{.Values.resources.limits.cpu}}
+          livenessProbe:
+            httpGet:
+              path: /api/v1/user/actuator/health/liveness
+              port: 8002
+            initialDelaySeconds: {{.Values.probes.initialDelaySeconds}}
+            periodSeconds: {{.Values.probes.periodSeconds}}
+            timeoutSeconds: {{.Values.probes.timeoutSeconds}}
+            failureThreshold: {{.Values.probes.failureThreshold}}
+          readinessProbe:
+            httpGet:
+              port: 8002
+              path: /api/v1/user/actuator/health/readiness
+            initialDelaySeconds: {{.Values.probes.initialDelaySeconds}}
+            periodSeconds: {{.Values.probes.periodSeconds}}
+            timeoutSeconds: {{.Values.probes.timeoutSeconds}}
+            failureThreshold: {{.Values.probes.failureThreshold}}

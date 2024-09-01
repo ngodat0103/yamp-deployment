@@ -11,14 +11,14 @@ imagePullSecrets:
 nameOverride: ""
 spring:
   profiles:
-      active: pre-proc
+      active: proc
 resources:
    limits:
      cpu: 1024m
      memory: 1024Mi
    requests:
      cpu: 512m
-     memory: 1024Mi
+     memory: 512Mi
 autoscaling:
   enabled: true
   minReplicas: 2
@@ -29,16 +29,22 @@ autoscaling:
 yamp:
   authsvc:
     repo: ghcr.io/ngodat0103/yamp/auth-svc
-    tag: "0.0.1"
+    tag: "pr-latest"
   usersvc:
     repo: ghcr.io/ngodat0103/yamp/user-svc
-    tag: "0.0.1"
+    tag: "pr-latest"
   gatewaysvc:
     repo: ghcr.io/ngodat0103/yamp/gateway-svc
-    tag: "0.0.1"
+    tag: "pr-latest"
 configmap:
   tempo: tempo-common-configmap
 
+
+probes:
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
 
 
 # Additional volumes on the output Deployment definition.
