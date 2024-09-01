@@ -46,7 +46,7 @@ spec:
             httpGet:
               path: /api/v1/user/actuator/health/liveness
               port: 8002
-            initialDelaySeconds: {{.Values.probes.initialDelaySeconds}}
+            initialDelaySeconds: {{.Values.probes.liveness.initialDelaySeconds}}
             periodSeconds: {{.Values.probes.periodSeconds}}
             timeoutSeconds: {{.Values.probes.timeoutSeconds}}
             failureThreshold: {{.Values.probes.failureThreshold}}
@@ -54,7 +54,7 @@ spec:
             httpGet:
               port: 8002
               path: /api/v1/user/actuator/health/readiness
-            initialDelaySeconds: {{.Values.probes.initialDelaySeconds}}
+            initialDelaySeconds: {{.Values.probes.readiness.initialDelaySeconds}}
             periodSeconds: {{.Values.probes.periodSeconds}}
             timeoutSeconds: {{.Values.probes.timeoutSeconds}}
             failureThreshold: {{.Values.probes.failureThreshold}}
