@@ -45,14 +45,14 @@ spec:
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
-              port: 80
+              port: 8000
             initialDelaySeconds: 30
             periodSeconds: {{.Values.probes.periodSeconds}}
             timeoutSeconds: {{.Values.probes.timeoutSeconds}}
             failureThreshold: {{.Values.probes.failureThreshold}}
           readinessProbe:
             httpGet:
-              port: 80
+              port: 8000
               path: /actuator/health/readiness
             initialDelaySeconds: {{.Values.probes.initialDelaySeconds}}
             periodSeconds: {{.Values.probes.periodSeconds}}
