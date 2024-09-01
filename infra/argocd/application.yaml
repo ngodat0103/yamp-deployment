@@ -6,10 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    path: yamp
     chart: yamp
     repoURL: https://github.com/ngodat0103/yamp-deployment.git
-    targetRevision: master
+    targetRevision: config
     helm:
       releaseName: yamp-release
   destination:
