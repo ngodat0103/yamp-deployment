@@ -38,7 +38,10 @@ configmap:
 
 
 probes:
-  initialDelaySeconds: 10
+  liveness:
+    initialDelaySeconds: 30
+  readiness:
+    initialDelaySeconds: 120
   periodSeconds: 10
   timeoutSeconds: 5
   failureThreshold: 3

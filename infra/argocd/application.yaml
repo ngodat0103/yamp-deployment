@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/ngodat0103/yamp-deployment.git
-    targetRevision: master
+    targetRevision: staging-v0.0.0
     path: yamp
   destination:
     server: "https://kubernetes.default.svc"

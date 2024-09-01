@@ -30,6 +30,8 @@ spec:
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: {{.Values.spring.profiles.active}}
+            - name: APP_VERSION
+              value: {{.Chart.AppVersion}}
           imagePullPolicy: Always
           ports:
             - containerPort: 8001
@@ -44,7 +46,7 @@ spec:
             httpGet:
               path: /api/v1/auth/actuator/health/liveness
               port: 8001
-            initialDelaySeconds: {{.Values.probes.initialDelaySeconds}}
+            initialDelaySeconds: {{.Values.probes.liveness.initialDelaySeconds}}
             periodSeconds: {{.Values.probes.periodSeconds}}
             timeoutSeconds: {{.Values.probes.timeoutSeconds}}
             failureThreshold: {{.Values.probes.failureThreshold}}
@@ -52,7 +54,7 @@ spec:
             httpGet:
               port: 8001
               path: /api/v1/auth/actuator/health/readiness
-            initialDelaySeconds: {{.Values.probes.initialDelaySeconds}}
+            initialDelaySeconds: {{.Values.probes.readiness.initialDelaySeconds}}
             periodSeconds: {{.Values.probes.periodSeconds}}
             timeoutSeconds: {{.Values.probes.timeoutSeconds}}
             failureThreshold: {{.Values.probes.failureThreshold}}
