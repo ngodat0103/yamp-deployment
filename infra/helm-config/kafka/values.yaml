@@ -1,0 +1,4 @@
+fullnameOverride: kafka-svc
+listeners:
+  client:
+    protocol: PLAINTEXT # I'm new to this, so I set it to PLAINTEXT, in the future, I will change it to SASL_SSL. Currently, I focus how to make it work.

@@ -32,6 +32,10 @@ spec:
               value: {{.Values.spring.profiles.active}}
             - name: APP_VERSION
               value: {{.Chart.AppVersion}}
+            - name: SPRING_DATASOURCE_URL
+              value: {{.Values.yamp.authsvc.datasourceUrl}}
+            - name: SPRING_DATA_REDIS_URL
+              value: {{.Values.yamp.authsvc.redisUrl}}
           imagePullPolicy: Always
           ports:
             - containerPort: 8001

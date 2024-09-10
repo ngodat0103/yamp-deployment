@@ -1,0 +1,7 @@
+fullnameOverride: share-db
+metrics:
+  enable: true
+global:
+  postgresql:
+    auth:
+      postgresPassword: "postgres"
