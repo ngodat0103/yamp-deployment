@@ -29,7 +29,12 @@ spec:
                 name: gateway-svc-secret
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: pre-proc
+              value: {{.Values.spring.profiles.active}}
+            - name: SPRING_DATA_REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secret
+                  key: REDIS_PASSWORD
             - name: APP_VERSION
               value: {{.Chart.AppVersion}}
           imagePullPolicy: Always

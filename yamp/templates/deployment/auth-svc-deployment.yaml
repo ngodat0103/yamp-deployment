@@ -36,6 +36,11 @@ spec:
               value: {{.Values.yamp.authsvc.datasourceUrl}}
             - name: SPRING_DATA_REDIS_URL
               value: {{.Values.yamp.authsvc.redisUrl}}
+            - name: SPRING_DATA_REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secret
+                  key: REDIS_PASSWORD
           imagePullPolicy: Always
           ports:
             - containerPort: 8001

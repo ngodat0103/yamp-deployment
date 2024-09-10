@@ -36,7 +36,7 @@ spec:
               value: {{.Values.yamp.productsvc.datasourceUrl}}
           imagePullPolicy: Always
           ports:
-            - containerPort: 8002
+            - containerPort: 8003
           resources:
             requests:
               memory: {{.Values.resources.requests.memory}}
@@ -46,16 +46,16 @@ spec:
               cpu: {{.Values.resources.limits.cpu}}
           livenessProbe:
             httpGet:
-              path: /api/v1/user/actuator/health/liveness
-              port: 8002
+              path: /api/v1/product/actuator/health/liveness
+              port: 8003
             initialDelaySeconds: {{.Values.probes.liveness.initialDelaySeconds}}
             periodSeconds: {{.Values.probes.periodSeconds}}
             timeoutSeconds: {{.Values.probes.timeoutSeconds}}
             failureThreshold: {{.Values.probes.failureThreshold}}
           readinessProbe:
             httpGet:
-              port: 8002
-              path: /api/v1/user/actuator/health/readiness
+              port: 8003
+              path: /api/v1/product/actuator/health/readiness
             initialDelaySeconds: {{.Values.probes.readiness.initialDelaySeconds}}
             periodSeconds: {{.Values.probes.periodSeconds}}
             timeoutSeconds: {{.Values.probes.timeoutSeconds}}
