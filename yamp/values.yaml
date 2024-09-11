@@ -26,21 +26,21 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
 
+
+redis:
+  url: redis://redis-svc:6379
 yamp:
   authsvc:
     repo: ghcr.io/ngodat0103/yamp/auth-svc
     datasourceUrl: jdbc:postgresql://share-db:5432/auth-svc-db
-    redisUrl: redis://redis-svc-master:6379
   usersvc:
     repo: ghcr.io/ngodat0103/yamp/user-svc
     datasourceUrl: jdbc:postgresql://share-db:5432/user-svc-db
-    redisUrl: redis://redis-svc-master:6379
   gatewaysvc:
     repo: ghcr.io/ngodat0103/yamp/gateway-svc
   productsvc:
     repo: ghcr.io/ngodat0103/yamp/product-svc
     datasourceUrl: jdbc:postgresql://share-db:5432/product-svc-db
-    redisUrl: redis://redis-svc-master:6379
 configmap:
   tempo: tempo-common-configmap
 

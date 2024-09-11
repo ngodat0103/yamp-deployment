@@ -30,11 +30,8 @@ spec:
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: {{.Values.spring.profiles.active}}
-            - name: SPRING_DATA_REDIS_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: redis-secret
-                  key: REDIS_PASSWORD
+            - name: SPRING_DATA_REDIS_URL
+              value: {{.Values.redis.url}}
             - name: APP_VERSION
               value: {{.Chart.AppVersion}}
           imagePullPolicy: Always
