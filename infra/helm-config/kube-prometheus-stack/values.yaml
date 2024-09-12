@@ -1,0 +1,32 @@
+prometheus:
+  prometheusSpec:
+    scrapeInterval: 5s
+    additionalScrapeConfigs:
+      - job_name: "auth-svc"
+        metrics_path: '/api/v1/auth/actuator/prometheus'
+        static_configs:
+          - targets: [ 'auth-svc.yamp.svc.cluster.local:8001' ]
+      - job_name: 'user-svc'
+        metrics_path: '/api/v1/user/actuator/prometheus'
+        static_configs:
+          - targets: [ 'user-svc.yamp.svc.cluster.local:8002' ]
+      - job_name: 'gateway-svc'
+        metrics_path: '/actuator/prometheus'
+        static_configs:
+          - targets: [ 'gateway-svc.yamp.svc.cluster.local:8000' ]
+grafana:
+  additionalDataSources:
+    - name: Tempo
+      type: tempo
+      uid: tempo
+      url: http://tempo.monitoring.svc.cluster.local:3100
+      access: proxy
+      orgId: 1
+      basicAuth: false
+      isDefault: false
+      version: 1
+      editable: true
+      jsonData:
+        httpMethod: GET
+        serviceMap:
+          datasourceUid: 'prometheus'

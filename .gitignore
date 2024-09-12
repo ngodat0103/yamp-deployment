@@ -4,3 +4,4 @@
 /yamp/secret/hcp-k8s-secret.yaml
 /yamp/yamp/yamp-0.0.0.tgz
 /init/
+/secret/
