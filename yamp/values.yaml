@@ -29,6 +29,11 @@ autoscaling:
 
 redis:
   url: redis://redis-svc:6379
+kafka:
+  producer:
+    servers: [ kafka-svc-controller-headless.staging-infra-yamp.cluster.local:9092 ]
+  consumer:
+    servers: [ kafka-svc:9092.staging-infra-yamp.cluster.local ]
 yamp:
   authsvc:
     repo: ghcr.io/ngodat0103/yamp/auth-svc

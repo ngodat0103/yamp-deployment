@@ -36,6 +36,8 @@ spec:
               value: {{.Values.yamp.authsvc.datasourceUrl}}
             - name: SPRING_DATA_REDIS_URL
               value: {{.Values.redis.url}}
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: {{.Values.kafka.producer.servers}}
           imagePullPolicy: Always
           ports:
             - containerPort: 8001
