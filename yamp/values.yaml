@@ -46,7 +46,9 @@ yamp:
     datasourceUrl: jdbc:postgresql://share-db:5432/product-svc-db
 configmap:
   tempo: tempo-common-configmap
-
+tempo:
+  URL: "http://tempo:3100"
+  agentClassPath: "-javaagent:/opt/app/BOOT-INF/lib/opentelemetry-javaagent-1.33.5.jar"
 cloudflared:
   secretKey: CLOUDFLARED_TOKEN_STAGING
 

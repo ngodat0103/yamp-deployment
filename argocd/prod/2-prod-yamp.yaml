@@ -15,7 +15,14 @@ spec:
           value: prod
         - name: cloudflared.secretKey
           value: CLOUDFLARED_TOKEN_PROD
+        - name: kafka.consumerURL
+          value: kafka-svc.prod-infra-yamp.svc.cluster.local:9092
+        - name: kafka.producerURL
+          value: kafka-svc-controller-headless.prod-infra-yamp.svc.cluster.local:9092
       values: |
+        tempo:
+          URL: "http://tempo:3100"
+          agentClassPath: "-javaagent:/opt/app/BOOT-INF/lib/opentelemetry-javaagent-1.33.5.jar"
         yamp:
           authsvc:
             datasourceUrl: jdbc:postgresql://postgresql-prod-infra-yamp-application.prod-infra-yamp.svc.cluster.local:5432/auth-svc-db
