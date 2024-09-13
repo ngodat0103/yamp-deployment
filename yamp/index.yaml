@@ -3,7 +3,7 @@ entries:
   vault-secrets-operator:
   - apiVersion: v2
     appVersion: 0.8.1
-    created: "2024-09-12T20:31:43.7642679+07:00"
+    created: "2024-09-13T10:59:33.5508983+07:00"
     description: Official Vault Secrets Operator Chart
     digest: 5402fd32913d86155f49b4d919bca24ebb3c636ee4adb0a82301722a6b7e9afa
     kubeVersion: '>=1.21.0-0'
@@ -16,17 +16,17 @@ entries:
     version: 0.8.1
   yamp:
   - apiVersion: v2
-    appVersion: v0.0.8
-    created: "2024-09-12T20:31:43.766384+07:00"
+    appVersion: v0.0.6
+    created: "2024-09-13T10:59:33.5546441+07:00"
     dependencies:
     - name: vault-secrets-operator
       repository: https://helm.releases.hashicorp.com
       version: 0.8.1
     description: A Helm chart for Kubernetes
-    digest: 4770b812eb8130fca2a6535ab21662153bf2e2cb9adfe7b2eb6b33760f827b2c
+    digest: ed5bf3587a652c3bc731f84a5f14aa0fbf2a9c80437b6d2b7f152dcaaee3c9a9
     name: yamp
     type: application
     urls:
     - charts/yamp-0.0.1.tgz
     version: 0.0.1
-generated: "2024-09-12T20:31:43.7613779+07:00"
+generated: "2024-09-13T10:59:33.5476992+07:00"

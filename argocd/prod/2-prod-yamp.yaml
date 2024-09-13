@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prod-yamp-application
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: yamp
+    repoURL: https://charts.ngodat0103.live/yamp
+    targetRevision: 0.0.1
+    helm:
+      parameters:
+        - name: spring.profiles.active
+          value: prod
+        - name: cloudflared.secretKey
+          value: CLOUDFLARED_TOKEN_PROD
+      values: |
+        yamp:
+          authsvc:
+            datasourceUrl: jdbc:postgresql://postgresql-prod-infra-yamp-application.prod-infra-yamp.svc.cluster.local:5432/auth-svc-db
+          usersvc:
+            datasourceUrl: jdbc:postgresql://postgresql-prod-infra-yamp-application.prod-infra-yamp.svc.cluster.local:5432/user-svc-db
+          productsvc:
+            datasourceUrl: jdbc:postgresql://postgresql-prod-infra-yamp-application.prod-infra-yamp.svc.cluster.local:5432/product-svc-db
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: prod-yamp
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

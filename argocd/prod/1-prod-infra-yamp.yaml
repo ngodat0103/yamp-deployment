@@ -1,21 +1,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: postgresql-infra-yamp-application
+  name: postgresql-prod-infra-yamp-application
   namespace: argocd
 spec:
   project: default
   source:
     helm:
       parameters:
-        - name: global.postgresql.existingSecret
+        - name: global.postgresql.auth.existingSecret
           value: share-db-secret
+        - name: global.postgresql.auth.secretKeys.adminPasswordKey
+          value: adminPasswordKey
     chart: postgresql
     repoURL: https://charts.bitnami.com/bitnami
     targetRevision: 15.5.29
   destination:
     server: https://kubernetes.default.svc
-    namespace: infra-yamp
+    namespace: prod-infra-yamp
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
@@ -26,7 +28,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kafka-infra-yamp-application
+  name: kafka-staging-infra-yamp-application
   namespace: argocd
 spec:
   project: default
@@ -42,10 +44,11 @@ spec:
             protocol: PLAINTEXT # I'm new to this, so I set it to PLAINTEXT, in the future, I will change it to SASL_SSL. Currently, I focus how to make it work.
   destination:
     server: https://kubernetes.default.svc
-    namespace: infra-yamp
+    namespace: prod-infra-yamp
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
     automated:
       prune: true
       selfHeal: true
+
