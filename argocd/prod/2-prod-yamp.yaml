@@ -8,18 +8,19 @@ spec:
   source:
     chart: yamp
     repoURL: https://charts.ngodat0103.live/yamp
-    targetRevision: 0.0.2
+    targetRevision: 0.0.3
     helm:
       parameters:
         - name: spring.profiles.active
           value: prod
         - name: cloudflared.secretKey
           value: CLOUDFLARED_TOKEN_PROD
-        - name: kafka.producer.server
-          value: kafka-prod-infra-yamp-application.prod-infra-yamp.svc.cluster.local:9092
-        - name: kafka.consumer.server
-          value: kafka-prod-infra-yamp-application.prod-infra-yamp.svc.cluster.local:9092
       values: |
+        kafka:
+            producer:
+                servers: [ kafka-svc-controller-headless.prod-infra-yamp.cluster.local:9092 ]
+            consumer:
+                servers: [ kafka-svc:9092.prod-infra-yamp.cluster.local ]
         yamp:
           authsvc:
             datasourceUrl: jdbc:postgresql://postgresql-prod-infra-yamp-application.prod-infra-yamp.svc.cluster.local:5432/auth-svc-db
