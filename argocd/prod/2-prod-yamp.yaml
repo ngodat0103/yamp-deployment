@@ -20,6 +20,19 @@ spec:
         - name: kafka.producerURL
           value: kafka-svc-controller-headless.prod-infra-yamp.svc.cluster.local:9092
       values: |
+        resources:
+          limits:
+            cpu: 200m
+            memory: 1024Mi
+          requests:
+            cpu: 100m
+            memory: 512Mi
+        autoscaling:
+          enabled: true
+          minReplicas: 2
+          maxReplicas: 10
+          targetCPUUtilizationPercentage: 80
+          targetMemoryUtilizationPercentage: 80
         tempo:
           URL: "http://tempo-release.monitoring.svc.cluster.local:4317"
           agentClassPath: "-javaagent:/opt/app/BOOT-INF/lib/opentelemetry-javaagent-1.33.5.jar"
