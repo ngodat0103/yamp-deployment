@@ -21,7 +21,7 @@ spec:
           value: kafka-svc-controller-headless.prod-infra-yamp.svc.cluster.local:9092
       values: |
         tempo:
-          URL: "http://tempo:3100"
+          URL: "http://tempo-release.monitoring.svc.cluster.local:4317"
           agentClassPath: "-javaagent:/opt/app/BOOT-INF/lib/opentelemetry-javaagent-1.33.5.jar"
         yamp:
           authsvc:

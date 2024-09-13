@@ -14,10 +14,10 @@ spring:
       active: pre-prod
 resources:
    limits:
-     cpu: 1024m
+     cpu: 200m
      memory: 1024Mi
    requests:
-     cpu: 512m
+     cpu: 100m
      memory: 512Mi
 autoscaling:
   enabled: true
