@@ -34,4 +34,4 @@ and [values files](./yamp/values.yaml).
 6. Configure the values for infrastructure in the [helm-config](./infra/helm-config) folder
 7. Deploying the infrastructure by running the [first_time_setup.sh](./infra/first_time_setup.sh) script. 
 8. install the secret for hcp, the only secret for hcp-operator fetching the secret from the Hashicorp Cloud Platform.
-9. Deploy the application using argocd by apply the [application.yaml](argocd/application.yaml) file.
+9. Deploy the application using argocd by apply the [argocd-application](argocd/prod) folder.
