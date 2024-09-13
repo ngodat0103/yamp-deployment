@@ -4,3 +4,4 @@
 /yamp/secret/hcp-k8s-secret.yaml
 /init/
 /secret/
+/yamp/output.yaml
