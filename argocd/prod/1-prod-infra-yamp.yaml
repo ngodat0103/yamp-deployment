@@ -28,7 +28,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kafka-staging-infra-yamp-application
+  name: kafka-prod-infra-yamp-application
   namespace: argocd
 spec:
   project: default

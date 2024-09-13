@@ -16,9 +16,9 @@ spec:
         - name: cloudflared.secretKey
           value: CLOUDFLARED_TOKEN_PROD
         - name: kafka.producer.server
-          value: [kafka-prod-infra-yamp-application.prod-infra-yamp.svc.cluster.local:9092]
+          value: kafka-prod-infra-yamp-application.prod-infra-yamp.svc.cluster.local:9092
         - name: kafka.consumer.server
-          value: [kafka-prod-infra-yamp-application.prod-infra-yamp.svc.cluster.local:9092]
+          value: kafka-prod-infra-yamp-application.prod-infra-yamp.svc.cluster.local:9092
       values: |
         yamp:
           authsvc:
