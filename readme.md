@@ -35,3 +35,23 @@ and [values files](./yamp/values.yaml).
 7. Deploying the infrastructure by running the [first_time_setup.sh](./infra/first_time_setup.sh) script. 
 8. install the secret for hcp, the only secret for hcp-operator fetching the secret from the Hashicorp Cloud Platform.
 9. Deploy the application using argocd by apply the [argocd-application](argocd/prod) folder.
+# Some images about the project
+## Deployment with ArgoCD
+![argocd](docs/argocd.png)
+## Monitoring
+![application](docs/application-monitoring.png)
+## Request tracing for some endpoints
+### /api/v1/user/get-me
+** With no cache **
+![get-me.png](docs/get-me-with-no-cache.png)
+** With cache **
+![get-me-cache.png](docs/get-me-with-cache.png)
+### /api/v1/user/register
+![register.png](docs/register.png)
+
+
+Continue to update...
+```
+
+
+
