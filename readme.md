@@ -22,6 +22,13 @@ I am currently using a secret management platform, but I plan to deploy a dedica
 2. [helm](https://helm.sh/): a package manager for Kubernetes.
 3. [ArgoCD](https://argoproj.github.io/argo/): a workflow engine for Kubernetes.
 # How this project be deployed
+## Specification
+This project was deployed and tested using Minikube version 1.32.0 on a system with the following hardware specifications:
+- OS: Ubuntu 22.04 
+- CPU: i5-3470s
+- Memory: 16GB
+- Storage: 120GB SSD 
+## Detail
 1. Register an account on [hashicorp](https://app.terraform.io/signup/account) and create a new organization.
 2. Set up and configure the secrets in the vault secrets in the organization.
 ![hashicorp-secret](docs/hashicorp-secret.png)
