@@ -28,7 +28,7 @@ This project was deployed and tested using Minikube version 1.32.0 on a system w
 - CPU: i5-3470s
 - Memory: 16GB
 - Storage: 120GB SSD 
-## Detail
+## Detail 
 1. Register an account on [hashicorp](https://app.terraform.io/signup/account) and create a new organization.
 2. Set up and configure the secrets in the vault secrets in the organization.
 ![hashicorp-secret](docs/hashicorp-secret.png)
