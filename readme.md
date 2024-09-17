@@ -33,15 +33,11 @@ This project was deployed and tested using Minikube version 1.32.0 on a system w
 2. Set up and configure the secrets in the vault secrets in the organization.
 ![hashicorp-secret](docs/hashicorp-secret.png)
 3. Set up secret management in the Kubernetes cluster, check the [hcp-k8s-operator](./yamp/templates/hcp-k8s-operator) folder.
-4. Set up dns in the Cloudflare account, get access token and zone id. I already put accessKey in the Hashicorp Cloud Platform.
-![cloudflare-tunnel](docs/cloudflare-tunnel.png)
-5. Set up the Cloudflare tunnel in the Kubernetes cluster, check the [cloudflare-tunnel](./yamp/templates/deployment/cloudflared-deployment.yaml)
 , [cloudflare-hcpvaultsecretsapp](./yamp/templates/hcp-k8s-operator/hcpvaultsecretsapp/cloudflared-hcpvaultsecretsapp.yaml)
-and [values files](./yamp/values.yaml).
-6. Configure the values for infrastructure in the [helm-config](./infra/helm-config) folder
-7. Deploying the infrastructure by running the [first_time_setup.sh](./infra/first_time_setup.sh) script. 
-8. install the secret for hcp, the only secret for hcp-operator fetching the secret from the Hashicorp Cloud Platform.
-9. Deploy the application using argocd by apply the [argocd-application](argocd/prod) folder.
+4. Configure the values for infrastructure in the [helm-config](./infra/helm-config) folder
+5. Deploying the infrastructure by running the [first_time_setup.sh](./infra/first_time_setup.sh) script. 
+6. install the secret for hcp, the only secret for hcp-operator fetching the secret from the Hashicorp Cloud Platform.
+7. Deploy the application using argocd by apply the [argocd-application](argocd/prod) folder.
 # Some images about the project
 ## Deployment with ArgoCD
 ![argocd](docs/argocd.png)
