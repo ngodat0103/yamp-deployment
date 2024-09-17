@@ -15,7 +15,6 @@ I am currently using a secret management platform, but I plan to deploy a dedica
 6. [Redis](https://redis.io/): a in-memory data structure store.
 7. [Tempo](https://grafana.com/oss/tempo/): a distributed tracing platform.
 8. [Loki](https://grafana.com/oss/loki/): a log aggregation platform.
-9. [Cloudflare tunnel in Kubernetes](https://developers.cloudflare.com/cloudflare-one/tutorials/many-cfd-one-tunnel/): A Cloudflare tunnel to expose the services to the internet.
 
 # Tools have been used
 1. [kubectl](https://kubernetes.io/docs/reference/kubectl/overview/): a command line tool for interacting with Kubernetes clusters.
