@@ -1,0 +1,100 @@
+- name: Set up Kubernetes cluster
+  hosts: all
+  become: true
+  tasks:
+    - name: Disable swab
+      command: swapoff -a
+    - name: Remove swap entry from /etc/fstab
+      replace:
+        path: /etc/fstab
+        regexp: '^.*/sswap/s.*$'
+        replace: '$\1'
+    - name: Install required packages
+      apt:
+        name: 
+          - apt-transport-https
+          - ca-certificates 
+          - curl 
+          - gnupg
+          - lsb-release
+        state: present
+    - name: Add Kubernetes GPG key
+      apt_key:
+        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+        state: present
+    - name: Add Kubernetes repository
+      apt_repository:
+        repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+        state: present 
+    - name: Install Kubernetes components
+      apt:
+        name: 
+          - kubelet
+          - kubeadm
+          - kubectl
+        state: present
+        update_cache: yes
+    - name: Start kubelet service
+      service:
+        name: 
+          - kubelet
+          - kubeadm
+          - kubectl
+        state: started
+        enabled: yes
+    - name: Install containerd
+      apt:
+       name: containerd
+       state: present
+    - name: Create containerd configuration directory
+      file:
+        path: /etc/containerd
+        state: directory
+    - name: Genererate defaultl containerd configuration
+      command: containerd config default > /etc/containerd/config.toml
+    - name: Configure containerd to use systemd as cgroup driver
+      replace:
+        path: /etc/containerd/config.toml
+        regexp: 'SystemdCgroup = false'
+        replace: 'SystemdCgroup = true'
+    - name: Restart containerd service
+      service:
+        name: containerd
+        state: restarted
+        enabled: yes
+- name: Initialize Kubernetes master node
+  hosts: master
+  become: true
+  tasks:
+    - name: Initialize Kubernetes master node
+      command: kubeadm init --pod-network-cidr=192.168.0.0/16
+      register: init_output
+    - name: Create .kube directory
+      file:
+        path: /root/.kube
+        state: directory
+        mode: '0755'
+    - name: Copy Kubernetes configuration file
+      command: "{{ item }}"
+      with_items:
+        - mkdir -p $/home/.kube
+        - cp -i /etc/kubernetes/admin.conf $/home/.kube/config
+        - chown $(id -u):$(id -g) $/home/.kube/config
+    - name: Save the join command to a file
+      copy:
+        content: "{{ init_output.stdout }}"
+        dest: /root/join_command.txt
+- name: Join worker nodes to the cluster
+  hosts: workers
+  become: true
+  tasks:
+    - name: Fetch join command from master
+      command: cat /root/join_command.txt
+      delegate_to: master
+      register: join_command
+    - name: Join worker nodes to the Kubernetes cluster
+      command: "{{ join_command.stdout }}"
+...
+      
+
+    
