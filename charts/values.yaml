@@ -4,8 +4,6 @@
 replicaCount: 2
 image:
   pullPolicy: Always
-  tag: "pr-latest"
-
 imagePullSecrets:
   name: ghcr-secret
 nameOverride: ""
@@ -34,16 +32,20 @@ kafka:
   consumerURL: kafka-svc:9092
 yamp:
   authsvc:
+    version: 0.0.1
     repo: ghcr.io/ngodat0103/yamp/auth-svc
     datasourceUrl: jdbc:postgresql://share-db:5432/auth-svc-db
   usersvc:
     repo: ghcr.io/ngodat0103/yamp/user-svc
     datasourceUrl: jdbc:postgresql://share-db:5432/user-svc-db
+    version: 0.0.1
   gatewaysvc:
     repo: ghcr.io/ngodat0103/yamp/gateway-svc
+    version: 0.0.1
   productsvc:
     repo: ghcr.io/ngodat0103/yamp/product-svc
     datasourceUrl: jdbc:postgresql://share-db:5432/product-svc-db
+    version: 0.0.1
 configmap:
   tempo: tempo-common-configmap
 tempo:

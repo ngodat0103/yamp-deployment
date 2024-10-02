@@ -1,7 +1,8 @@
-/yamp/secret/ghcr-secret.yaml
+/charts/secret/ghcr-secret.yaml
 /infra/k8s/hcp-k8s-operator/hcp-k8s-secret.yaml
 /.idea/
-/yamp/secret/hcp-k8s-secret.yaml
+/charts/secret/hcp-k8s-secret.yaml
 /init/
 /secret/
-/yamp/output.yaml
+/charts/output.yaml
+/charts/product-svc/test.yaml

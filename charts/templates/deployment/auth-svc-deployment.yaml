@@ -1,46 +1,47 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-svc-deployment
+  name: auth-svc-deployment
 spec:
+  replicas: {{.Values.replicaCount}}
   strategy:
     type: RollingUpdate
     rollingUpdate:
       maxSurge: 1
       maxUnavailable: 1
-  replicas: {{.Values.replicaCount}}
   selector:
     matchLabels:
-      app: user-svc
+      app: auth-svc
   template:
     metadata:
       labels:
-        app: user-svc
+        app: auth-svc
     spec:
       imagePullSecrets:
         - name: {{.Values.imagePullSecrets.name}}
       containers:
-        - name: user-svc
-          image: {{.Values.yamp.usersvc.repo}}:{{.Chart.AppVersion}}
+        - name: auth-svc
+          image: {{.Values.yamp.authsvc.repo}}:{{.Values.yamp.authsvc.version}}
           envFrom:
             - configMapRef:
                 name: {{.Values.configmap.tempo}}
             - secretRef:
-                name: user-svc-secret
+                name: auth-svc-secret
           env:
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: {{.Values.kafka.producerURL}}
             - name: SPRING_PROFILES_ACTIVE
               value: {{.Values.spring.profiles.active}}
             - name: APP_VERSION
               value: {{.Chart.AppVersion}}
             - name: SPRING_DATASOURCE_URL
-              value: {{.Values.yamp.usersvc.datasourceUrl}}
+              value: {{.Values.yamp.authsvc.datasourceUrl}}
             - name: SPRING_DATA_REDIS_URL
               value: {{.Values.redis.url}}
-            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
-              value: {{.Values.kafka.consumerURL }}
+
           imagePullPolicy: Always
           ports:
-            - containerPort: 8002
+            - containerPort: 8001
           resources:
             requests:
               memory: {{.Values.resources.requests.memory}}
@@ -50,17 +51,20 @@ spec:
               cpu: {{.Values.resources.limits.cpu}}
           livenessProbe:
             httpGet:
-              path: /api/v1/user/actuator/health/liveness
-              port: 8002
+              path: /api/v1/auth/actuator/health/liveness
+              port: 8001
             initialDelaySeconds: {{.Values.probes.liveness.initialDelaySeconds}}
             periodSeconds: {{.Values.probes.periodSeconds}}
             timeoutSeconds: {{.Values.probes.timeoutSeconds}}
             failureThreshold: {{.Values.probes.failureThreshold}}
           readinessProbe:
             httpGet:
-              port: 8002
-              path: /api/v1/user/actuator/health/readiness
+              port: 8001
+              path: /api/v1/auth/actuator/health/readiness
             initialDelaySeconds: {{.Values.probes.readiness.initialDelaySeconds}}
             periodSeconds: {{.Values.probes.periodSeconds}}
             timeoutSeconds: {{.Values.probes.timeoutSeconds}}
             failureThreshold: {{.Values.probes.failureThreshold}}
+
+
+
