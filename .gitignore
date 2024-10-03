@@ -6,3 +6,4 @@
 /secret/
 /charts/output.yaml
 /charts/product-svc/test.yaml
+*test.yaml
