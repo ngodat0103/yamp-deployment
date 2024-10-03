@@ -35,15 +35,17 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           envFrom:
+            {{- with .Values.commonConfigMap}}
+            {{- . | nindent 12}}
+            {{- end}}
             - configMapRef:
-                name: {{.Chart.Name -}}-configmap
+                name: {{ include "auth-svc.fullname" . }}-configmap
                 optional: true
-            - configMapRef:
-                name: tempo-common-configmap
-                optional: true
+            {{- with .Values.secretRef.name}}
             - secretRef:
-                name: {{ .Chart.Name -}}-secret
+                name: {{ . }}
                 optional: true
+            {{- end }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{.Values.image.repository}}:{{.Values.image.tag | default .Chart.AppVersion}}"

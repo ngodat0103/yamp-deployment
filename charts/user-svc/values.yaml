@@ -44,7 +44,7 @@ service:
   # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
   type: ClusterIP
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
-  port: 8003
+  port: 8002
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 
@@ -63,12 +63,12 @@ resources: {}
 # This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 livenessProbe:
   httpGet:
-    path: /api/v1/product/actuator/health/liveness
-    port: 8003
+    path: /api/v1/user/actuator/health/liveness
+    port: 8002
 readinessProbe:
   httpGet:
-    path: /api/v1/product/actuator/health/readiness
-    port: 8003
+    path: /api/v1/user/actuator/health/readiness
+    port: 8002
 
 #This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:
@@ -91,10 +91,15 @@ volumeMounts: []
 #   mountPath: "/etc/foo"
 #   readOnly: true
 configMap:
-  name: product-svc-configmap
   value:
     SPRING_DATASOURCE_URL: jdbc:postgresql://share-db.yamp-infra:5432/product-svc-db
     SPRING_PROFILES_ACTIVE: pre-prod
+commonConfig: |-
+  - configMapRef:
+      name: tempo-common-config
+      optional: true
+secretRef:
+  name: {}
 nodeSelector: {}
 
 tolerations: []

@@ -104,6 +104,12 @@ configMap:
     SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-svc
     SPRING_DATASOURCE_URL: jdbc:postgresql://share-db:5432/product-svc-db
     SPRING_DATA_REDIS_URL: redis-svc
+commonConfigMap: {}
+#  - configMapRef:
+#      name: tempo-common-configmap
+#      optional: true
+secretRef:
+  name: "auth-svc-secret"
 nodeSelector: {}
 
 tolerations: []

@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "product-svc.name" . }}-configmap
+  name: {{ include "user-svc.fullname" . -}}-configmap
   labels:
-    {{- include "product-svc.labels" . | nindent 4}}
+    {{- include "user-svc.labels" . | nindent 4}}
 data:
   {{- range $key, $value := .Values.configMap.value }}
   {{ $key }}: {{ $value | quote }}

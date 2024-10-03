@@ -90,6 +90,12 @@ volumeMounts: []
 # - name: foo
 #   mountPath: "/etc/foo"
 #   readOnly: true
+secretRef:
+  name: {}
+commonConfig: |-
+  - configMapRef:
+      name: tempo-common-configmap
+      optional: true
 configMap:
   name: product-svc-configmap
   value:

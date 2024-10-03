@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "product-svc.fullname" . }}
+  name: {{ include "user-svc.fullname" . }}
   labels:
-    {{- include "product-svc.labels" . | nindent 4 }}
+    {{- include "user-svc.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "product-svc.selectorLabels" . | nindent 6 }}
+      {{- include "user-svc.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "product-svc.labels" . | nindent 8 }}
+        {{- include "user-svc.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -33,14 +33,16 @@ spec:
         - name: {{ .Chart.Name }}
           envFrom:
             - configMapRef:
-                name: {{include "product-svc.name" . -}}-configmap
+                name: {{include "user-svc.fullname" . -}}-configmap
                 optional: true
-            - configMapRef:
-                name: tempo-common-configmap
-                optional: true
+            {{- with .Values.commonConfig}}
+            {{- . | nindent 12}}
+            {{- end}}
+            {{- with .Values.secretRef.name}}
             - secretRef:
-                name: {{include "product-svc.name" . -}}-secret
+                name: {{ . }}
                 optional: true
+            {{- end}}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{.Values.image.repository}}:{{.Values.image.tag | default .Chart.AppVersion}}"

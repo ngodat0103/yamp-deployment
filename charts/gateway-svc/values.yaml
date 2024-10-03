@@ -101,7 +101,7 @@ volumeMounts: []
 configMap:
   value:
     SPRING_PROFILES_ACTIVE: pre-prod
-commonConfig:
+commonConfig: |-
   - configMapRef:
       name: tempo-common-configmap
       optional: true

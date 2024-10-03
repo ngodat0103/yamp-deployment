@@ -35,12 +35,14 @@ spec:
             - configMapRef:
                 name: {{include "product-svc.name" . -}}-configmap
                 optional: true
-            - configMapRef:
-                name: tempo-common-configmap
-                optional: true
+            {{- with .Values.commonConfig}}
+            {{- . | nindent 12}}
+            {{- end}}
+            {{- with .Values.secretRef.name}}
             - secretRef:
-                name: {{include "product-svc.name" . -}}-secret
+                name: {{ . }}
                 optional: true
+            {{- end}}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{.Values.image.repository}}:{{.Values.image.tag | default .Chart.AppVersion}}"
