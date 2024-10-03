@@ -7,7 +7,7 @@ replicaCount: 2
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
-  repository: ghcr.io/ngodat0103/yamp/gateway-svc
+  repository: ghcr.io/ngodat0103/yamp/auth-svc
   # This sets the pull policy for images.
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
@@ -44,7 +44,7 @@ service:
   # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
   type: ClusterIP
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
-  port: 8000
+  port: 8001
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 
@@ -63,16 +63,16 @@ resources: {}
 # This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 livenessProbe:
   httpGet:
-    path: /actuator/health/liveness
-    port: 8000
+    path: /api/v1/auth/actuator/health/liveness
+    port: 8001
   initialDelaySeconds: 15
   periodSeconds: 30
   timeoutSeconds: 5
   failureThreshold: 3
 readinessProbe:
   httpGet:
-    path: /actuator/health/readiness
-    port: 8000
+    path: /api/v1/auth/actuator/health/readiness
+    port: 8001
   initialDelaySeconds: 15
   periodSeconds: 30
   timeoutSeconds: 5
@@ -101,16 +101,9 @@ volumeMounts: []
 configMap:
   value:
     SPRING_PROFILES_ACTIVE: pre-prod
-commonConfig:
-  - configMapRef:
-      name: tempo-common-configmap
-      optional: true
-#  data:
-#    JAVA_TOOL_OPTIONS: '-javaagent:/opt/app/BOOT-INF/lib/opentelemetry-javaagent-1.33.5.jar'
-#    OTEL_METRICS_EXPORTER: "none"
-#    OTEL_EXPORTER_OTLP_ENDPOINT: "http://tempo:3100"
-secretRef:
-  name: "gateway-svc-secret"
+    SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-svc
+    SPRING_DATASOURCE_URL: jdbc:postgresql://share-db:5432/product-svc-db
+    SPRING_DATA_REDIS_URL: redis-svc
 nodeSelector: {}
 
 tolerations: []

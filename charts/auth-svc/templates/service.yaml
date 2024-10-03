@@ -4,9 +4,9 @@ metadata:
   {{- with .Values.namespace }}
   namespace: {{ . }}
   {{- end}}
-  name: {{ include "gateway-svc.fullname" .}}
+  name: {{ .Chart.Name }}
   labels:
-    {{- include "gateway-svc.labels" . | nindent 4 }}
+    {{- include "auth-svc.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -15,4 +15,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "gateway-svc.selectorLabels" . | nindent 4 }}
+    {{- include "auth-svc.selectorLabels" . | nindent 4 }}
