@@ -1,5 +1,0 @@
-fullnameOverride: redis-svc
-architecture: standalone
-auth:
-  enable: false
-  sentinel: false
