@@ -41,7 +41,7 @@ spec:
             {{- with .Values.secretRef.name}}
             - secretRef:
                 name: {{ . }}
-                optional: true
+                optional: false
             {{- end}}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}

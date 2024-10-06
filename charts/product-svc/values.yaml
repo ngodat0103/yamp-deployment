@@ -11,7 +11,7 @@ image:
   # This sets the pull policy for images.
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "0.0.1"
 app:
   profile: pre-prod
 # This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -91,7 +91,7 @@ volumeMounts: []
 #   mountPath: "/etc/foo"
 #   readOnly: true
 secretRef:
-  name: {}
+  name: product-svc-secret
 commonConfig: |-
   - configMapRef:
       name: tempo-common-configmap
@@ -99,8 +99,20 @@ commonConfig: |-
 configMap:
   name: product-svc-configmap
   value:
-    SPRING_DATASOURCE_URL: jdbc:postgresql://share-db.yamp-infra:5432/product-svc-db
+    SPRING_DATASOURCE_URL: jdbc:postgresql://product-svc-postgresql:5432/product-svc-db
     SPRING_PROFILES_ACTIVE: pre-prod
+postgresql:
+  global:
+    postgresql:
+      auth:
+        username: "product-svc-user"
+        database: product-svc-db
+        existingSecret: product-svc-secret
+        secretKeys:
+          userPasswordKey: SPRING_DATASOURCE_PASSWORD
+          adminPasswordKey: SPRING_DATASOURCE_PASSWORD
+
+
 nodeSelector: {}
 
 tolerations: []
