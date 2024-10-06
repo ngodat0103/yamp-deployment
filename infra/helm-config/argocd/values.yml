@@ -1,0 +1,11 @@
+#configs:
+#  cm:
+#    admin.enabled: false
+#   dex.config: |
+#     connectors:
+#       - type: github
+#         id: github
+#         name: GitHub
+#         config:
+#           clientID:
+#           clientSecret:
