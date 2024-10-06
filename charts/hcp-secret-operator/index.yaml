@@ -1,0 +1,34 @@
+apiVersion: v1
+entries:
+  vault-secrets-operator:
+  - apiVersion: v2
+    appVersion: 0.8.1
+    created: "2024-10-06T10:06:40.2942641+07:00"
+    description: Official Vault Secrets Operator Chart
+    digest: 5402fd32913d86155f49b4d919bca24ebb3c636ee4adb0a82301722a6b7e9afa
+    kubeVersion: '>=1.21.0-0'
+    name: vault-secrets-operator
+    sources:
+    - https://github.com/hashicorp/vault-secrets-operator
+    type: application
+    urls:
+    - charts/vault-secrets-operator-0.8.1.tgz
+    version: 0.8.1
+  yamp-hcp-secret:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2024-10-06T10:06:40.2971738+07:00"
+    dependencies:
+    - name: vault-secrets-operator
+      repository: https://helm.releases.hashicorp.com
+      version: 0.8.1
+    description: 'Helm chart for managing Yamp project secrets using HashiCorp Vault.  Deploys
+      the HCP Vault Secrets Operator for secure and automated secret management in
+      Kubernetes. '
+    digest: 9f2bc7a43d7058284ae401bcd96daa5dc77557a5a4b19331ba1a52998f7b1683
+    name: yamp-hcp-secret
+    type: application
+    urls:
+    - charts/yamp-hcp-secret-0.1.0.tgz
+    version: 0.1.0
+generated: "2024-10-06T10:06:40.2926198+07:00"

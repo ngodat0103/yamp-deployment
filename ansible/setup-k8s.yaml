@@ -7,8 +7,8 @@
     - name: Remove swap entry from /etc/fstab
       replace:
         path: /etc/fstab
-        regexp: '^.*/sswap/s.*$'
-        replace: '$\1'
+        regexp: '(^.*swap.*$)'
+        replace: '#\1'
     - name: Install required packages
       apt:
         name: 
@@ -17,14 +17,16 @@
           - curl 
           - gnupg
           - lsb-release
+          - socat
         state: present
     - name: Add Kubernetes GPG key
       apt_key:
-        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+        url: https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key
         state: present
+        keyring: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
     - name: Add Kubernetes repository
       apt_repository:
-        repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+        repo: deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /
         state: present 
     - name: Install Kubernetes components
       apt:
@@ -34,14 +36,6 @@
           - kubectl
         state: present
         update_cache: yes
-    - name: Start kubelet service
-      service:
-        name: 
-          - kubelet
-          - kubeadm
-          - kubectl
-        state: started
-        enabled: yes
     - name: Install containerd
       apt:
        name: containerd
@@ -51,7 +45,9 @@
         path: /etc/containerd
         state: directory
     - name: Genererate defaultl containerd configuration
-      command: containerd config default > /etc/containerd/config.toml
+      shell: |
+        rm -f /etc/containerd/config.toml
+        containerd config default > /etc/containerd/config.toml
     - name: Configure containerd to use systemd as cgroup driver
       replace:
         path: /etc/containerd/config.toml
@@ -60,15 +56,20 @@
     - name: Restart containerd service
       service:
         name: containerd
-        state: restarted
+        state: restarted 
         enabled: yes
 - name: Initialize Kubernetes master node
   hosts: master
   become: true
   tasks:
+    - name: Check if kubeadm init has been run
+      stat:
+        path: /etc/kubernetes/admin.conf
+      register: kubeadm_init_check
     - name: Initialize Kubernetes master node
-      command: kubeadm init --pod-network-cidr=192.168.0.0/16
+      command: kubeadm init --pod-network-cidr=192.168.0.0/16 --ignore-preflight-errors=FileContent--proc-sys-net-bridge-bridge-nf-call-iptables
       register: init_output
+      when: kubeadm_init_check.stat.exists == false
     - name: Create .kube directory
       file:
         path: /root/.kube
@@ -77,9 +78,7 @@
     - name: Copy Kubernetes configuration file
       command: "{{ item }}"
       with_items:
-        - mkdir -p $/home/.kube
-        - cp -i /etc/kubernetes/admin.conf $/home/.kube/config
-        - chown $(id -u):$(id -g) $/home/.kube/config
+        - cp -i /etc/kubernetes/admin.conf ~/.kube/config
     - name: Save the join command to a file
       copy:
         content: "{{ init_output.stdout }}"
@@ -95,6 +94,4 @@
     - name: Join worker nodes to the Kubernetes cluster
       command: "{{ join_command.stdout }}"
 ...
-      
-
     
