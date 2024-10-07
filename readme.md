@@ -31,8 +31,8 @@ This project was deployed and tested using Minikube version 1.32.0 on a system w
 1. Register an account on [hashicorp](https://app.terraform.io/signup/account) and create a new organization.
 2. Set up and configure the secrets in the vault secrets in the organization.
 ![hashicorp-secret](docs/hashicorp-secret.png)
-3. Set up secret management in the Kubernetes cluster, check the [hcp-k8s-operator](charts/template-old/hcp-k8s-operator) folder.
-, [cloudflare-hcpvaultsecretsapp](charts/template-old/hcp-k8s-operator/hcpvaultsecretsapp/cloudflared-hcpvaultsecretsapp.yaml)
+3. Set up secret management in the Kubernetes cluster, check the [hcp-k8s-operator](helm/template-old/hcp-k8s-operator) folder.
+, [cloudflare-hcpvaultsecretsapp](helm/template-old/hcp-k8s-operator/hcpvaultsecretsapp/cloudflared-hcpvaultsecretsapp.yaml)
 4. Configure the values for infrastructure in the [helm-config](./infra/helm-config) folder
 5. Deploying the infrastructure by running the [first_time_setup.sh](./infra/first_time_setup.sh) script. 
 6. install the secret for hcp, the only secret for hcp-operator fetching the secret from the Hashicorp Cloud Platform.

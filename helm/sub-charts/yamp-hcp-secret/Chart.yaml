@@ -5,7 +5,7 @@ description: >
   Deploys the HCP Vault Secrets Operator for secure and automated secret management in Kubernetes.
 
 type: application
-version: 0.1.0
+version: 0.0.1
 appVersion: "0.0.1"
 dependencies:
   - name: vault-secrets-operator

@@ -13,7 +13,7 @@ entries:
       licenses: Apache-2.0
     apiVersion: v2
     appVersion: 17.0.0
-    created: "2024-10-06T14:25:21.6528829+07:00"
+    created: "2024-10-07T10:46:54.8330002+07:00"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -44,14 +44,14 @@ entries:
     version: 16.0.1
   product-svc:
   - apiVersion: v2
-    appVersion: 0.0.2
-    created: "2024-10-06T14:25:21.6579221+07:00"
+    appVersion: 0.0.1
+    created: "2024-10-07T10:46:54.8366789+07:00"
     dependencies:
     - name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 16.0.1
     description: A Helm chart for product-svc
-    digest: a38a7e80517ae0a355fb79912afb9327567cd2757e548382aa9309796f9dc5b9
+    digest: 3f8fd74bda242f0da2ca7b1f87d5b4fbae488904c0d067f3d42a23ad20b31acf
     maintainers:
     - email: ngovuminhdat@gmail.com
       name: DatNvm
@@ -59,6 +59,6 @@ entries:
     name: product-svc
     type: application
     urls:
-    - charts/product-svc-0.0.2.tgz
-    version: 0.0.2
-generated: "2024-10-06T14:25:21.6492422+07:00"
+    - charts/product-svc-0.0.1.tgz
+    version: 0.0.1
+generated: "2024-10-07T10:46:54.8277967+07:00"

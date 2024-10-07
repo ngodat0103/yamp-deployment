@@ -1,0 +1,11 @@
+yamp-hcp-secret:
+  yamp-hcp-secret:
+    yamp-hcp-secret:
+      fullnameOverride: yamp
+
+product-svc:
+  fullnameOverride: product-svc
+  image:
+    tag: "0.0.1"
+  postgresql:
+    fullnameOverride: product-svc-postgresql
