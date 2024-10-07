@@ -1,4 +1,4 @@
-# Default values for product-svc.
+# Default values for gateway-svc.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -11,7 +11,7 @@ image:
   # This sets the pull policy for images.
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "0.0.1"
 app:
   profile: pre-prod
 # This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -92,7 +92,7 @@ volumes: []
 #   secret:
 #     secretName: mysecret
 #     optional: false
-namespace: staging-yamp
+
 # Additional volumeMounts on the output Deployment definition.
 volumeMounts: []
 # - name: foo
@@ -105,10 +105,6 @@ commonConfig: |-
   - configMapRef:
       name: tempo-common-configmap
       optional: true
-#  data:
-#    JAVA_TOOL_OPTIONS: '-javaagent:/opt/app/BOOT-INF/lib/opentelemetry-javaagent-1.33.5.jar'
-#    OTEL_METRICS_EXPORTER: "none"
-#    OTEL_EXPORTER_OTLP_ENDPOINT: "http://tempo:3100"
 secretRef:
   name: "gateway-svc-secret"
 nodeSelector: {}
@@ -116,3 +112,5 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+namespace: staging-yamp
