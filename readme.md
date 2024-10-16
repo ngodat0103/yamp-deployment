@@ -4,12 +4,40 @@ the [yamp project](https://github.com/ngodat0103/yamp.git).
 # Architecture
 ![architecture](docs/architecture.png)
 
+# Secret Management Sequence diagram
+```mermaid
+sequenceDiagram
+    participant SpringApp as Spring Application
+    participant VaultCSI as Vault CSI Provider
+    participant Vault as Hashicorp Vault
+    participant K8sAPI as Kubernetes API Server
+    
+    SpringApp ->>+ VaultCSI: Deploy with Service Account
+    VaultCSI ->>+ Vault: Authenticate using Service Account Token
+    Vault ->>+ K8sAPI: Validate Service Account with Kubernetes API
+    K8sAPI -->>- Vault: Service Account Validated
+    Vault -->>- VaultCSI: Access Token with Secret Read Permissions
+    VaultCSI ->>+ Vault: Fetch Secrets using Access Token
+    Vault -->>- VaultCSI: Secrets
+    VaultCSI ->> SpringApp: Mount Secrets to Pod Volume
+    SpringApp ->> SpringApp: Read Secrets from Mounted Path
+    
+    loop Sync Secrets
+        VaultCSI ->>+ Vault: Re-authenticate and Check for Secret Updates
+        Vault ->>+ K8sAPI: Validate Service Account
+        K8sAPI -->>- Vault: Service Account Revalidated
+        Vault -->>- VaultCSI: Updated Secrets or Status
+        VaultCSI ->> SpringApp: Update Mounted Secrets in Pod Volume
+    end
+
+```
+
 # Components
 1. [Kubernetes](https://kubernetes.io/docs/concepts/overview/): a container orchestration platform.
-2. [Hashicorp](https://developer.hashicorp.com/hcp/docs/vault-secrets): a secret management platform. 
+2. [Hashicorp Vault](https://github.com/hashicorp/vault): a secret management platform. 
 I am currently using a secret management platform, but I plan to deploy a dedicated Vault server due to limitations with HashiCorp
 3. [Kafka](https://kafka.apache.org/): a distributed event streaming platform.
-4. [Vault-secret-operator](https://developer.hashicorp.com/vault/tutorials/kubernetes/vault-secrets-operator): a Kubernetes operator for managing secrets. 
+4. [Vault CSI provider](https://github.com/hashicorp/vault-csi-provider): a Kubernetes CSI driver for HashiCorp Vault.
 4. [Prometheus](https://prometheus.io/): a monitoring and alerting toolkit.
 5. [Grafana](https://grafana.com/): a visualization platform.
 6. [Redis](https://redis.io/): a in-memory data structure store.

@@ -3,4 +3,4 @@ dependencies:
   repository: https://helm.releases.hashicorp.com
   version: 0.8.1
 digest: sha256:7d2e56a9cb36ad62368ecf8444a134028d2066fc4f59c1c9ee2c95b32ba4c47f
-generated: "2024-10-06T09:45:59.2437753+07:00"
+generated: "2024-10-11T08:43:27.5128153+07:00"

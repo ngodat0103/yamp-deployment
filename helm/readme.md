@@ -14,3 +14,16 @@ graph TD;
     J[Git Repository] -->|Stores| B;
     J -->|Triggers| I;
 ```
+# Helm Dependencies Graph
+```mermaid
+graph TD;
+    yamp-umbrella --> yamp-hcp-secret
+    yamp-umbrella --> product-svc
+    auth-svc --> postgresql
+    product-svc --> postgresql
+    yamp-hcp-secret --> vault-secrets-operator
+    yamp-infra --> kafka
+    yamp-infra --> redis
+```
+
+Continue update...
