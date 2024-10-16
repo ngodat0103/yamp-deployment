@@ -11,40 +11,38 @@
         replace: '#\1'
     - name: Install required packages
       apt:
-        name: 
+        name:
           - apt-transport-https
-          - ca-certificates 
-          - curl 
+          - ca-certificates
+          - curl
           - gnupg
           - lsb-release
           - socat
+          - net-tools
         state: present
     - name: Add Kubernetes GPG key
       apt_key:
-        url: https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key
+        url: https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key
         state: present
         keyring: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
     - name: Add Kubernetes repository
       apt_repository:
-        repo: deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /
-        state: present 
+        repo: echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /
+        state: present
     - name: Install Kubernetes components
       apt:
-        name: 
+        name:
           - kubelet
           - kubeadm
           - kubectl
+          - kubernetes-cni
+          - containerd
         state: present
         update_cache: yes
-    - name: Install containerd
-      apt:
-       name: containerd
-       state: present
-    - name: Create containerd configuration directory
       file:
         path: /etc/containerd
         state: directory
-    - name: Genererate defaultl containerd configuration
+    - name: Generate default containerd configuration
       shell: |
         rm -f /etc/containerd/config.toml
         containerd config default > /etc/containerd/config.toml
@@ -56,20 +54,45 @@
     - name: Restart containerd service
       service:
         name: containerd
-        state: restarted 
+        state: restarted
         enabled: yes
+    - name: Configure network settings
+      block:
+        - name: Enable IP forwarding
+          sysctl:
+            name: net.ipv4.ip_forward
+            value: '1'
+            state: present
+            reload: yes
+        - name: Enable bridge-nf-call-iptables
+          sysctl:
+            name: net.bridge.bridge-nf-call-iptables
+            value: '1'
+            state: present
+            reload: yes
+        - name: Load bridge module
+          modprobe:
+            name: bridge
+            state: present
+        - name: Load br_netfilter module
+          modprobe:
+            name: br_netfilter
+            state: present
+        - name: Ensure net.bridge.bridge-nf-call-iptables is set in sysctl.conf
+          lineinfile:
+            path: /etc/sysctl.conf
+            regexp: '^net.bridge.bridge-nf-call-iptables'
+            line: 'net.bridge.bridge-nf-call-iptables = 1'
+            state: present
+        - name: Apply sysctl settings from /etc/sysctl.conf
+          command: sysctl -p /etc/sysctl.conf
 - name: Initialize Kubernetes master node
   hosts: master
   become: true
   tasks:
-    - name: Check if kubeadm init has been run
-      stat:
-        path: /etc/kubernetes/admin.conf
-      register: kubeadm_init_check
     - name: Initialize Kubernetes master node
-      command: kubeadm init --pod-network-cidr=192.168.0.0/16 --ignore-preflight-errors=FileContent--proc-sys-net-bridge-bridge-nf-call-iptables
       register: init_output
-      when: kubeadm_init_check.stat.exists == false
+      command: kubeadm init --pod-network-cidr=192.168.0.0/16
     - name: Create .kube directory
       file:
         path: /root/.kube
@@ -83,6 +106,9 @@
       copy:
         content: "{{ init_output.stdout }}"
         dest: /root/join_command.txt
+    - name: Export KUBECONFIG environment variable
+      environment:
+        KUBECONFIG: /etc/kubernetes/admin.conf
 - name: Join worker nodes to the cluster
   hosts: workers
   become: true
@@ -94,4 +120,3 @@
     - name: Join worker nodes to the Kubernetes cluster
       command: "{{ join_command.stdout }}"
 ...
-    
