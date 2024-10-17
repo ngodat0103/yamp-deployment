@@ -39,6 +39,7 @@
           - containerd
         state: present
         update_cache: yes
+    - name: Create containerd configuration directory
       file:
         path: /etc/containerd
         state: directory
@@ -64,12 +65,6 @@
             value: '1'
             state: present
             reload: yes
-        - name: Enable bridge-nf-call-iptables
-          sysctl:
-            name: net.bridge.bridge-nf-call-iptables
-            value: '1'
-            state: present
-            reload: yes
         - name: Load bridge module
           modprobe:
             name: bridge
@@ -92,7 +87,7 @@
   tasks:
     - name: Initialize Kubernetes master node
       register: init_output
-      command: kubeadm init --pod-network-cidr=192.168.0.0/16
+      command: kubeadm init
     - name: Create .kube directory
       file:
         path: /root/.kube
@@ -107,8 +102,9 @@
         content: "{{ init_output.stdout }}"
         dest: /root/join_command.txt
     - name: Export KUBECONFIG environment variable
-      environment:
-        KUBECONFIG: /etc/kubernetes/admin.conf
+      command: echo "export KUBECONFIG=/root/.kube/config" >> /root/.bashrc
+    - name: Install Weave Net CNI plugin
+      command: kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
 - name: Join worker nodes to the cluster
   hosts: workers
   become: true
