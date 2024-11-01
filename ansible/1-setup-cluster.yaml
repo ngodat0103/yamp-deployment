@@ -1,12 +1,12 @@
 - name: Initialize Kubernetes master node
-  hosts: masters
+  hosts: master-nodes
   become: true
   tasks:
     - name: Initialize Kubernetes master node
       ansible.builtin.command:
         chdir: /root
         cmd: |-
-          kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address={{ ansible_host }}
+          kubeadm init --pod-network-cidr=10.244.0.0/16
         creates: kubeadm-init.log
     - name: Create .kube directory
       ansible.builtin.file:
@@ -40,7 +40,7 @@
       args:
         creates: /usr/local/bin/helm
 - name: Join worker nodes to the Kubernetes cluster
-  hosts: workers
+  hosts: worker-nodes
   become: true
   tasks:
     - name: Fetch join command from master

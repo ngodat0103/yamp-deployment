@@ -1,2 +1,3 @@
 .vagrant
 .vscode
+inventory/gcloud-instances.ini

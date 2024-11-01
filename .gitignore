@@ -8,3 +8,4 @@
 /helm/sub-charts/product-svc/test.yaml
 *test.yaml
 /convert.py
+/.vscode/

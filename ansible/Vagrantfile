@@ -2,6 +2,13 @@ Vagrant.configure("2") do |config|
   # Define the base box
   config.vm.box = "ubuntu/jammy64"
 
+  # Provision script to install Kubernetes Python library
+  provision_script = <<-SCRIPT
+    sudo apt-get update
+    sudo apt-get install -y python3-pip
+    python3 -m pip install kubernetes
+  SCRIPT
+
   # Define the first VM (master)
   config.vm.define "master" do |master|
     master.vm.hostname = "master"
@@ -10,6 +17,7 @@ Vagrant.configure("2") do |config|
       vb.memory = "4096"
       vb.cpus = 2
     end
+    master.vm.provision "shell", inline: provision_script
   end
 
   # Define the second VM (worker1)
@@ -20,6 +28,7 @@ Vagrant.configure("2") do |config|
       vb.memory = "4096"
       vb.cpus = 2
     end
+    worker1.vm.provision "shell", inline: provision_script
   end
 
   # Define the third VM (worker2)
@@ -30,6 +39,7 @@ Vagrant.configure("2") do |config|
       vb.memory = "4096"
       vb.cpus = 2
     end
+    worker2.vm.provision "shell", inline: provision_script
   end
 
   # Define the fourth VM (worker3)
@@ -40,5 +50,6 @@ Vagrant.configure("2") do |config|
       vb.memory = "4096"
       vb.cpus = 2
     end
+    worker3.vm.provision "shell", inline: provision_script
   end
 end
