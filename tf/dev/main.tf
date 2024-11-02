@@ -21,19 +21,19 @@ module "network" {
       subnet_name   = "k8s-worker-nodes-subnet"
       subnet_ip     = "172.21.0.0/16"
       subnet_region = var.worker-nodes-region
-      description = "Subnet for worker nodes"
+      description   = "Subnet for worker nodes"
     }
   ]
   firewall_rules = [
     {
-      name = "allow-ping-ingress"
+      name      = "allow-ping-ingress"
       direction = "INGRESS"
       allow = [
         {
           protocol = "icmp"
         }
       ]
-    }, 
+    },
     {
       name = "allow-ssh-ingress"
       # network       = "k8s-network"
@@ -47,7 +47,8 @@ module "network" {
       source_ranges = ["0.0.0.0/0"]
     },
     {
-      name = "allow-port-for-worker-nodes"
+      name      = "allow-port-for-worker-nodes"
+      direction = "INGRESS"
       allow = [
         {
           protocol = "tcp"
@@ -56,17 +57,47 @@ module "network" {
       ]
       source_ranges = ["0.0.0.0/0"]
       target_tags   = ["worker-nodes"]
+    },
+    {
+      name          = "allow-api-server-endpoint-for-master-nodes"
+      source_ranges = ["0.0.0.0/0"]
+      allow = [
+        {
+          protocol = "tcp"
+          ports    = ["6443"]
+        }
+      ]
     }
   ]
 }
 module "instances" {
-  source         = "./modules/instances"
-  network        = module.network.network_name
-  master-nodes-subnet =  module.network.subnets["${var.master-nodes-region}/k8s-master-nodes-subnet"].name
+  source              = "../modules/instances"
+  network             = module.network.network_name
+  master-nodes-subnet = module.network.subnets["${var.master-nodes-region}/k8s-master-nodes-subnet"].name
   worker-nodes-subnet = module.network.subnets["${var.worker-nodes-region}/k8s-worker-nodes-subnet"].name
-  machine_type   = "e2-medium"
-  environment    = "dev"
-  n-master-nodes = var.n_master_nodes
-  n-worker-nodes = var.n_worker_nodes
-  boot_disk_size = 30
+  machine_type        = "e2-medium"
+  environment         = "dev"
+  n-master-nodes      = var.n_master_nodes
+  n-worker-nodes      = var.n_worker_nodes
+  boot_disk_size      = 30
+}
+
+module "master-instances-group" {
+  source            = "../modules/instances-group"
+  master-nodes-zone = var.master-nodes-zone
+  network           = module.network.network_id
+  instances         = module.instances.master-instances
+}
+
+module "master-nodes-internal-lb" {
+  depends_on = [module.master-instances-group]
+  source     = "../modules/master-nodes-internal-lb"
+  region     = var.master-nodes-region
+  project_id = var.project_id
+  backend_services = [
+    {
+      group          = module.master-instances-group.instances-group
+      balancing_mode = "CONNECTION"
+    }
+  ]
 }

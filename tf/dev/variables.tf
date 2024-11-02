@@ -5,14 +5,14 @@ variable "project_id" {
 }
 
 variable "master-nodes-region" {
-    description = "The region for master nodes"
-    type        = string
-    default = "asia-southeast1"
+  description = "The region for master nodes"
+  type        = string
+  default     = "asia-southeast1"
 }
 variable "worker-nodes-region" {
-    description = "The region for worker nodes"
-    type        = string
-    default = "asia-southeast2"
+  description = "The region for worker nodes"
+  type        = string
+  default     = "asia-southeast2"
 }
 variable "n_master_nodes" {
   description = "Number of instances for master nodes"
