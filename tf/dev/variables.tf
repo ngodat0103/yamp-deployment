@@ -4,6 +4,23 @@ variable "project_id" {
   # default = "nt531-438806"
 }
 
+variable "network_name" {
+  description = "The name of the network"
+  type        = string
+  default     = "k8s-network"
+}
+variable "master-nodes-subnet" {
+  description = "The name of the subnet for master nodes"
+  type        = string
+  default     = "k8s-master-nodes-subnet"
+}
+variable "worker-nodes-subnet" {
+  description = "The name of the subnet for worker nodes"
+  type        = string
+  default     = "k8s-worker-nodes-subnet"
+}
+
+
 variable "master-nodes-region" {
   description = "The region for master nodes"
   type        = string

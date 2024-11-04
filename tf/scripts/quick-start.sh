@@ -87,8 +87,8 @@ else
 fi
 
 # Generate SSH key pair in ./secrets
-mkdir -p ./secrets
-if [[ ! -f ./secrets/id_rsa ]]; then
+mkdir -p /tmp/secrets
+if [[ ! -f /tmp/secrets/id_rsa ]]; then
     ssh-keygen -t rsa -f ./secrets/id_rsa -q -N ""
     echo "SSH key pair generated at ./secrets/id_rsa and ./secrets/id_rsa.pub."
 else

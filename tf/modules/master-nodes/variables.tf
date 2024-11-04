@@ -1,12 +1,54 @@
-variable "name" {
-  description = "Name of the master load balancer"
-  type        = string
-  default    = "k8s-master-nodes-lb"
+variable "n-master-nodes" {
+  description = "Number of instances for master nodes"
+  type        = number
+  default     = 2
 }
-variable "subnetwork" {
-  description = "Subnetwork for the master load balancer"
+variable "name" {
+  description = "The name"
   type        = string
-  default   = "k8s-master-nodes-subnet"
+  default    = "master-nodes"
+  
+}
+variable "machine_type" {
+  description = "Machine type for instances"
+  type        = string
+  default     = "e2-medium"
+}
+variable "zone" {
+  description = "Zone for instances"
+  type        = string
+  default     = "asia-southeast1-a"
+}
+
+variable "environment" {
+  description = "Environment for instances"
+  type        = string
+  default     = "dev"
+}
+variable "image" {
+    description = "Image for instances"
+    type        = string
+    default     = "ubuntu-2204-jammy-v20240927"
+}
+variable "pub_key_path" {
+    description = "Path to public key"
+    type        = string
+    default     = "/tmp/secrets/id_rsa.pub"
+}
+variable boot_disk_size {
+  description = "Size of boot disk"
+  type        = number
+  default     = 30
+}
+variable "network" {
+  description = "Network for instances"
+  type        = string
+}
+
+
+variable "subnetwork" {
+  description = "Subnetwork "
+  type        = string
 }
 variable "region" {
   description = "Region for the master load balancer"
@@ -16,11 +58,7 @@ variable "project_id" {
   description = "The project ID"
   type        = string
 }
-variable "network" {
-  description = "The network"
-  type        = string
-  default   = "k8s-network"
-}
+
 
 variable "source_tags" {
   type = list(string)
@@ -54,10 +92,4 @@ variable "health_check" {
     host                = ""
     enable_log = false
   }
-}
-variable "backend_services" { 
-  type = list(object({
-    group = string
-    balancing_mode = string
-  }))
 }

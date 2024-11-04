@@ -8,17 +8,17 @@ provider "google" {
 module "network" {
   source       = "terraform-google-modules/network/google"
   version      = "9.3.0"
-  network_name = "k8s-network"
+  network_name = var.network_name
   project_id   = var.project_id
   subnets = [
     {
-      subnet_name   = "k8s-master-nodes-subnet"
+      subnet_name   = var.master-nodes-subnet
       subnet_ip     = "172.20.0.0/16"
       subnet_region = var.master-nodes-region
       description   = "Subnet for k8s-network"
     },
     {
-      subnet_name   = "k8s-worker-nodes-subnet"
+      subnet_name   = var.worker-nodes-subnet
       subnet_ip     = "172.21.0.0/16"
       subnet_region = var.worker-nodes-region
       description   = "Subnet for worker nodes"
@@ -70,34 +70,23 @@ module "network" {
     }
   ]
 }
-module "instances" {
-  source              = "../modules/instances"
-  network             = module.network.network_name
-  master-nodes-subnet = module.network.subnets["${var.master-nodes-region}/k8s-master-nodes-subnet"].name
-  worker-nodes-subnet = module.network.subnets["${var.worker-nodes-region}/k8s-worker-nodes-subnet"].name
-  machine_type        = "e2-medium"
-  environment         = "dev"
-  n-master-nodes      = var.n_master_nodes
-  n-worker-nodes      = var.n_worker_nodes
-  boot_disk_size      = 30
+module "master-nodes" {
+  depends_on     = [module.network]
+  source         = "../modules/master-nodes"
+  region         = var.master-nodes-region
+  zone           = var.master-nodes-zone
+  project_id     = var.project_id
+  n-master-nodes = 2
+  network        = var.network_name
+  subnetwork     = module.network.subnets["${var.master-nodes-region}/${var.master-nodes-subnet}"].name
 }
-
-module "master-instances-group" {
-  source            = "../modules/instances-group"
-  master-nodes-zone = var.master-nodes-zone
-  network           = module.network.network_id
-  instances         = module.instances.master-instances
-}
-
-module "master-nodes-internal-lb" {
-  depends_on = [module.master-instances-group]
-  source     = "../modules/master-nodes-internal-lb"
-  region     = var.master-nodes-region
-  project_id = var.project_id
-  backend_services = [
-    {
-      group          = module.master-instances-group.instances-group
-      balancing_mode = "CONNECTION"
-    }
-  ]
+module "worker-nodes" {
+  depends_on     = [module.network]
+  n-worker-nodes = 4
+  source         = "../modules/worker-nodes"
+  region         = var.worker-nodes-region
+  zone           = var.worker-nodes-zone
+  network        = var.network_name
+  subnetwork     = module.network.subnets["${var.worker-nodes-region}/${var.worker-nodes-subnet}"].name
+  project_id     = var.project_id
 }
